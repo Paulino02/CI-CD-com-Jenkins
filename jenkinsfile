@@ -22,13 +22,13 @@ pipeline {
 	           success {
 	              echo 'Now Archiving it...'
 	              archiveArtifacts artifacts: '**/target/*.war'
+				  sh "mv your-artifact.war your-artifact-${env.BUILD_VERSION}.war"
 	           }
 	        }
 	    }
 	    stage('publicar'){
 			steps{
-				 writeFile file: 'version.txt', text: env.BUILD_VERSION
-                    archiveArtifacts artifacts: 'version.txt', fingerprint: true
+				 archiveArtifacts artifacts: "your-artifact-${env.BUILD_VERSION}.war", fingerprint: true
 			}
 		}
 		stage('UNIT TEST') {
