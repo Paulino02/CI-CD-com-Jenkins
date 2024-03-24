@@ -22,7 +22,7 @@ pipeline {
 	           success {
 	              echo 'Now Archiving it...'
 	              archiveArtifacts artifacts: '**/target/*.war'
-	           }
+	            }
 	        }
 	    }
 	    stage('publicar'){
