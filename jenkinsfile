@@ -25,15 +25,12 @@ pipeline {
 	            }
 	        }
 	    }
-		stage('version'){
-			steps{
-				script { cp /target/vprofile-v2.war artefato-${env.BUILD_VERSION}.war 
-				}
-			}
-		}
 	    stage('publicar'){
 			steps{
-				archiveArtifacts artifacts: "artefato-${env.BUILD_VERSION}.war", fingerprint: true
+				script {
+					writeFile file: 'version.txt', text: env.BUILD_VERSION
+                    archiveArtifacts artifacts: 'version.txt', fingerprint: true
+				}
 			}
 		}
 		stage('UNIT TEST') {
