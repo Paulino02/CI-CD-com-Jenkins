@@ -5,6 +5,11 @@ pipeline{
             steps {
                 echo 'olaaa iniciando a pipeline'
             }
+        }
+        stage ('build') {
+            steps {
+                echo 'building an image'
+            }
         } 
     }
 }
