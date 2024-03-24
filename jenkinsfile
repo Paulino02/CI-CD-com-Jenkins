@@ -4,9 +4,10 @@ pipeline {
 	    maven "MAVEN3"
 	    jdk "JDK-11-JDK"
 	}
-	    stage('Build'){
+	stages {
+        stage('Build'){
 	        steps{
-	           sh 'mvn install -DskipTests'
+	           sh 'mvn clean install -DskipTests'
 	        }
 
 	        post {
@@ -22,5 +23,6 @@ pipeline {
                 sh 'mvn test'
             }
         }
-	}
+    }
 }
+
