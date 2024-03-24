@@ -27,7 +27,7 @@ pipeline {
 	    }
 		stage('version'){
 			steps{
-				sh "mv vprofile-v2.war artefato-${env.BUILD_VERSION}.war"
+				sh "mv **/target/*.war artefato-${env.BUILD_VERSION}.war"
 			}
 		}
 	    stage('publicar'){
