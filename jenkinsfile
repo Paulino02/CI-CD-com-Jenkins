@@ -8,7 +8,7 @@ pipeline {
         stage('preparar'){
 			steps {
 				script {
-					def timestamp = new Date().format('yy-MM-dd_HH-mm')
+					def timestamp = new Date().format('yy/MM/dd_HH:mm')
                     env.BUILD_VERSION = "1.0.${timestamp}"
 				}
 			}
