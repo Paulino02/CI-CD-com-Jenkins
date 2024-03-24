@@ -5,7 +5,15 @@ pipeline {
 	    jdk "JDK-11-JDK"
 	}
 	stages {
-        stage('Build'){
+        stage('preparar'){
+			steps {
+				script {
+					def timestamp = new Date().format('yy-MM-dd_HH-mm')
+                    env.BUILD_VERSION = "1.0.${timestamp}"
+				}
+			}
+		}
+		stage('Build'){
 	        steps{
 	           sh 'mvn install -DskipTests'
 	        }
@@ -17,7 +25,13 @@ pipeline {
 	           }
 	        }
 	    }
-	    stage('UNIT TEST') {
+	    stage('publicar'){
+			steps{
+				 writeFile file: 'version.txt', text: env.BUILD_VERSION
+                    archiveArtifacts artifacts: 'version.txt', fingerprint: true
+			}
+		}
+		stage('UNIT TEST') {
             steps{
                 sh 'mvn test'
             }
@@ -29,4 +43,3 @@ pipeline {
         }
     }
 }
-
