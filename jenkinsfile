@@ -1,15 +1,53 @@
-pipeline{
+pipeline {
     agent any
+    
+    environment {
+        DOCKER_IMAGE = 'nome_do_seu_repositorio/sua_imagem:tag'
+        REGISTRY_CREDENTIALS = 'ID_das_credenciais_do_Docker_Hub'
+    }
+    
     stages {
-        stage ('inicial') {
+        stage('Build') {
             steps {
-                echo 'olaaa iniciando a pipeline'
+                script {
+                    // Construir a imagem Docker do aplicativo
+                    docker.build(DOCKER_IMAGE)
+                }
             }
         }
-        stage ('build') {
+        
+        stage('Test') {
             steps {
-                echo 'building an image'
+                // Executar testes dentro do contêiner Docker
+                sh 'docker run --rm $DOCKER_IMAGE comando_de_teste'
             }
-        } 
+        }
+        
+        stage('Push') {
+            steps {
+                script {
+                    // Fazer o push da imagem Docker para o registro de contêiner
+                    docker.withRegistry('https://index.docker.io/v1/', REGISTRY_CREDENTIALS) {
+                        docker.image(DOCKER_IMAGE).push('latest')
+                    }
+                }
+            }
+        }
+        
+        stage('Deploy') {
+            steps {
+                // Realizar o deploy do aplicativo em um ambiente de produção
+                // Comandos para deploy (por exemplo, usando Kubernetes, Docker Swarm, etc.)
+            }
+        }
+    }
+    
+    post {
+        success {
+            echo 'Pipeline bem-sucedido! O aplicativo foi construído, testado, e implantado com sucesso.'
+        }
+        failure {
+            echo 'Houve falhas durante a execução do pipeline. Verifique os logs para diagnóstico.'
+        }
     }
 }
