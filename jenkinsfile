@@ -13,11 +13,10 @@ pipeline {
 	        post {
 	           success {
 	              echo 'Now Archiving it...'
-	              archiveArtifacts artifacts: '**/target-V$BUILD_ID/*.war'
+	              archiveArtifacts artifacts: '**/target/*.war'
 	           }
 	        }
 	    }
-
 	    stage('UNIT TEST') {
             steps{
                 sh 'mvn test'
@@ -28,7 +27,14 @@ pipeline {
                 sh 'mvn checkstyle:checkstyle'
             }
         }
-
+        stage('version'){
+            steps {
+                script {
+                    mkdir -p versions
+                    cp target/vprofile-v2.war versions/vprofile-V$BUILD_ID.war
+                }
+            }
+        }
     }
 }
 
