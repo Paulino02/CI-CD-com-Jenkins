@@ -22,13 +22,13 @@ pipeline {
 	           success {
 	              echo 'Now Archiving it...'
 	              archiveArtifacts artifacts: '**/target/*.war'
-				  sh "cp target/vprofile-v2.war versions/vprofile-${env.BUILD_VERSION}.war"
+				  sh "cp target/vprofile-v2.war vprofile-${env.BUILD_VERSION}.war"
 	           }
 	        }
 	    }
 	    stage('publicar'){
 			steps{
-				 archiveArtifacts artifacts: "versions/vprofile-${env.BUILD_VERSION}.war", fingerprint: true
+				 archiveArtifacts artifacts: "vprofile-${env.BUILD_VERSION}.war", fingerprint: true
 			}
 		}
 		stage('UNIT TEST') {
