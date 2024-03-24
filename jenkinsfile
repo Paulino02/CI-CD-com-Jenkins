@@ -22,7 +22,7 @@ pipeline {
 	           success {
 	              echo 'Now Archiving it...'
 	              archiveArtifacts artifacts: '**/target/*.war'
-				  sh "mv your-artifact.war your-artifact-${env.BUILD_VERSION}.war"
+				  sh "mv **/target/*.war your-artifact-${env.BUILD_VERSION}.war"
 	           }
 	        }
 	    }
