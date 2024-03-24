@@ -22,7 +22,7 @@ pipeline {
 	           success {
 	              echo 'Now Archiving it...'
 	              archiveArtifacts artifacts: '**/target/*.war'
-				  sh "mv target/vprofile-v2.war versions/vprofile-${env.BUILD_VERSION}.war"
+				  sh "cp target/vprofile-v2.war versions/vprofile-${env.BUILD_VERSION}.war"
 	           }
 	        }
 	    }
