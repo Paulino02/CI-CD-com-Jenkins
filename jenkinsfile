@@ -25,13 +25,14 @@ pipeline {
 	            }
 	        }
 	    }
+		stage('version'){
+			steps{
+				sh "mv vpeofile-v2.war artefato-${env.BUILD_VERSION}.war"
+			}
+		}
 	    stage('publicar'){
 			steps{
-				script {
-					writeFile file: 'version.txt', text: env.BUILD_VERSION
-                    archiveArtifacts artifacts: 'version.txt', fingerprint: true
-
-				}
+				archiveArtifacts artifacts: "artefato-${env.BUILD_VERSION}.war", fingerprint: true
 			}
 		}
 		stage('UNIT TEST') {
